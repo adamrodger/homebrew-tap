@@ -1,14 +1,14 @@
 class Gctx < Formula
-    version '0.5.0'
+    version '0.6.0'
     desc "Manage Google Cloud Platform gcloud configurations easily and quickly"
     homepage "https://github.com/adamrodger/gcloud-ctx"
 
     if OS.mac?
         url "https://github.com/adamrodger/gcloud-ctx/releases/download/v#{version}/gctx-x86_64-apple-darwin.tar.gz"
-        sha256 "129e3e9a88d95eb3eede86f7254178974abfadec44da341596eedd848c7baef0"
+        sha256 "725be47d002d3c71abe213091b42c4e78fec3bc65339fe00a2be1fc3af7cc3d5"
     elsif OS.linux?
         url "https://github.com/adamrodger/gcloud-ctx/releases/download/v#{version}/gctx-x86_64-unknown-linux-musl.tar.gz"
-        sha256 "6e999e780c87dc02ef4aac80192881b544789b28343377b9ec63dbeab4b05823"
+        sha256 "a03e72e88e1d8522627657be8ba27d8792ae75cf67e89028da7d1f11b0974814"
     end
 
     def install
