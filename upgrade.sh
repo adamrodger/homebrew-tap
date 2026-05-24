@@ -1,21 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ "$1" == "" ]; then
+if [ "${1:-}" == "" ]; then
     echo "Usage: upgrade.sh VERSION" 1>&2
+    exit 1
 fi
 
 VERSION="$1"
+BASE_URL="https://github.com/adamrodger/gcloud-ctx/releases/download/v${VERSION}"
+FORMULA="Formula/gctx.rb"
 
-echo "Checking gctx v${VERSION}"
+echo "Fetching checksums for gctx v${VERSION}..."
 
-APPLE_CHECKSUM=$(curl --silent -L "https://github.com/adamrodger/gcloud-ctx/releases/download/v${VERSION}/gctx-x86_64-apple-darwin.tar.gz" | sha256sum | cut -d' ' -f 1)
-LINUX_CHECKSUM=$(curl --silent -L "https://github.com/adamrodger/gcloud-ctx/releases/download/v${VERSION}/gctx-x86_64-unknown-linux-musl.tar.gz" | sha256sum  | cut -d' ' -f 1)
+MAC_X86=$(curl   --silent -L "${BASE_URL}/gctx-x86_64-apple-darwin.tar.gz"        | sha256sum | cut -d' ' -f1)
+MAC_ARM=$(curl   --silent -L "${BASE_URL}/gctx-aarch64-apple-darwin.tar.gz"       | sha256sum | cut -d' ' -f1)
+LINUX_X86=$(curl --silent -L "${BASE_URL}/gctx-x86_64-unknown-linux-musl.tar.gz"  | sha256sum | cut -d' ' -f1)
+LINUX_ARM=$(curl --silent -L "${BASE_URL}/gctx-aarch64-unknown-linux-musl.tar.gz" | sha256sum | cut -d' ' -f1)
 
-echo "        apple-darwin: ${APPLE_CHECKSUM}"
-echo "  unknown-linux-musl: ${LINUX_CHECKSUM}"
+echo "         x86_64-apple-darwin: ${MAC_X86}"
+echo "        aarch64-apple-darwin: ${MAC_ARM}"
+echo "   x86_64-unknown-linux-musl: ${LINUX_X86}"
+echo "  aarch64-unknown-linux-musl: ${LINUX_ARM}"
 
-# this relies on the line numbers in the file. If you change them then you need to update here as well
-sed -i "2s|version '.*'|version '${VERSION}'|" Formula/gctx.rb
-sed -i "8s|sha256 \".*\"|sha256 \"${APPLE_CHECKSUM}\"|" Formula/gctx.rb
-sed -i "11s|sha256 \".*\"|sha256 \"${LINUX_CHECKSUM}\"|" Formula/gctx.rb
+sed -i "s|version '.*'|version '${VERSION}'|"                   "${FORMULA}"
+sed -i "s|MAC_X86_SHA   = '.*'|MAC_X86_SHA   = '${MAC_X86}'|"   "${FORMULA}"
+sed -i "s|MAC_ARM_SHA   = '.*'|MAC_ARM_SHA   = '${MAC_ARM}'|"   "${FORMULA}"
+sed -i "s|LINUX_X86_SHA = '.*'|LINUX_X86_SHA = '${LINUX_X86}'|" "${FORMULA}"
+sed -i "s|LINUX_ARM_SHA = '.*'|LINUX_ARM_SHA = '${LINUX_ARM}'|" "${FORMULA}"
+
+echo "Updated ${FORMULA} to v${VERSION}"
