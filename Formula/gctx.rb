@@ -1,12 +1,12 @@
 class Gctx < Formula
-    version '0.8.0'
+    version '0.8.1'
     desc "Manage Google Cloud Platform gcloud configurations easily and quickly"
     homepage "https://github.com/adamrodger/gcloud-ctx"
 
-    MAC_X86_SHA   = 'a7df05e1cf75154cbb55c1a5ac702992b0642b1f95a7feaecd23bc823fe468a8'
-    MAC_ARM_SHA   = 'e4ca53e6ae321ef145b332d666a663b3a2478ef2494a83e7abe0cd15c1ffde51'
-    LINUX_X86_SHA = '037e41a946ffeb16ab4c4684790c5dc93f049a60f6b15e5da941666e7019d479'
-    LINUX_ARM_SHA = '0c256f8435e235d9a5ff8e9eb828bfaf63c2db1190d7114912dc3bc65034a6a1'
+    MAC_X86_SHA   = '7ba598a2aa332aeccc22efb88f3fea29964457b3b6c6b4e9d849f11a6f0f0ae5'
+    MAC_ARM_SHA   = 'd0f0617e1ac11840fe97dd00377c718b60eff1514bd264ba71147cc9d29def3d'
+    LINUX_X86_SHA = 'f7ced60f208b8b496f02de19611f311987161f5eac1afa7ecd097528fc610f03'
+    LINUX_ARM_SHA = '6dd1c08ca0b1cb7fb5cecc2cabf4a622bb569326878b055e8ff6640c12129837'
 
     on_macos do
         on_intel do
